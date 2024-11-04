@@ -15,7 +15,7 @@ services:
   app-foyer:
     depends_on:
       - mysqldb
-    image: nourhoudabejaoui/tp-foyer:1.0.0
+    image: nourhoudabejaoui/tp-foyer:5.0.0
     restart: on-failure
     ports:
       - "8082:8082"
