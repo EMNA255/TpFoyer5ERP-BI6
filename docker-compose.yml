@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  mysqlDb:
+  mysqldb:
     image: mysql:5.7
     restart: unless-stopped
     environment:
@@ -14,7 +14,7 @@ services:
 
   app-foyer:
     depends_on:
-      - mysqlDb
+      - mysqldb
     image: nourhoudabejaoui/tp-foyer:5.0.0
     restart: on-failure
     ports:
