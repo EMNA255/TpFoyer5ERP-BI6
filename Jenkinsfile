@@ -9,6 +9,35 @@ pipeline {
 
     stages {
 
+        stage('Getting project from Git') {
+            steps{
+      			checkout([$class: 'GitSCM', branches: [[name: '*/ImenZiedi-5ERPBI6-G1']],
+			extensions: [],
+            userRemoteConfigs: [[url: 'https://github.com/EMNA255/TpFoyer5ERP-BI6/tree/ImenZiedi-5ERPBI6-G1']]])
+
+            }
+        }
+
+        stage('Cleaning the project') {
+                    steps{
+                            sh "mvn -B -DskipTests clean  "
+
+                    }
+                }
+
+
+        stage('Artifact Construction') {
+            steps{
+                	sh "mvn -B -DskipTests package "
+            }
+        }
+
+        stage('Unit Tests') {
+            steps{
+               		 sh "mvn test "
+            }
+        }
+
                     
         stage ('maven sonar') {
             steps {
@@ -30,6 +59,9 @@ pipeline {
         //         echo "mvn deploy"
         //     }
         // }
+
+
+
         stage('Building docker  image') {
             steps {
                 script {
@@ -41,6 +73,8 @@ pipeline {
             }
         }
 
+
+
         stage('push docker  image'){
             steps{
                 script {
@@ -50,15 +84,17 @@ pipeline {
                 }
             }
         }
-        stage('cleaning image'){
-            steps{
-                script {
+
+
+        // stage('cleaning image'){
+        //     steps{
+        //         script {
                      
-                        sh " docker rmi nagui69/kaddem:abdelhak"
+        //                 sh " docker rmi nagui69/kaddem:abdelhak"
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
       
     }
