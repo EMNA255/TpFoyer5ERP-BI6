@@ -18,7 +18,6 @@ pipeline {
             }
         }
 
-        // imeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeenfdshbjgfsjhdbfgjhsdbjhgfhsjgfbjsbjgfsbjgf
 
         stage('Cleaning the project') {
                     steps{
