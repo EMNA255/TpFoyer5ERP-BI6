@@ -5,7 +5,11 @@ services:
     image: mysql:8.0
     restart: unless-stopped
     environment:
+<<<<<<< HEAD
       MYSQL_ROOT_PASSWORD:
+=======
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+>>>>>>> 3997eb0 (try)
       MYSQL_DATABASE: db
     ports:
       - "3306:3306"
