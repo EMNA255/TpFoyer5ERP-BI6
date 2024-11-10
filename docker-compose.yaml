@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  my-mysql:
+    container_name: my-mysql-test
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - /home/mysql/data:/var/lib/mysql
+
+  spring_app:
+    image: imenziedi/spring-app-bi:imenziedi-5bi-G1
+
+    restart: on-failure
+    ports:
+      - 9096:8089
+    depends_on:
+      - my-mysql
