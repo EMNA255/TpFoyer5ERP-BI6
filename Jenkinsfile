@@ -5,9 +5,9 @@ pipeline {
 
          stage('Getting project from Git') {
             steps{
-      			checkout([$class: 'GitSCM', branches: [[name: '*/imenziedi']],
+      			checkout([$class: 'GitSCM', branches: [[name: '*/ImenZiedi-5ERPBI6-G1']],
 			extensions: [],
-            userRemoteConfigs: [[url: 'https://github.com/imeneziedi/tp-foyer']]])
+            userRemoteConfigs: [[url: 'https://github.com/EMNA255/TpFoyer5ERP-BI6.git']]])
 
             }
         }
