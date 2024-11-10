@@ -1,19 +1,13 @@
 pipeline {
     agent any
-    environment {
-        registry = "imenziedi/tp-foyer"
-        registryCredential = 'dockerhub'
-        dockerImage = ''
-    
-    }
 
     stages {
 
-        stage('Getting project from Git') {
+         stage('Getting project from Git') {
             steps{
-      			checkout([$class: 'GitSCM', branches: [[name: '*/ImenZiedi-5ERPBI6-G1']],
+      			checkout([$class: 'GitSCM', branches: [[name: '*/imenziedi']],
 			extensions: [],
-            userRemoteConfigs: [[url: 'https://github.com/EMNA255/TpFoyer5ERP-BI6/tree/ImenZiedi-5ERPBI6-G1']]])
+            userRemoteConfigs: [[url: 'https://github.com/imeneziedi/tp-foyer']]])
 
             }
         }
@@ -38,8 +32,7 @@ pipeline {
                		 sh "mvn test "
             }
         }
-
-                    
+        
         stage ('maven sonar') {
             steps {
                 
@@ -54,44 +47,54 @@ pipeline {
             }
         }
 
-        // stage("PUBLISH TO NEXUS") {
-        //     steps {
-        //         // sh 'mvn deploy'
-        //         echo "mvn deploy"
-        //     }
-        // }
 
+	
+	
 
-
-        stage('Building docker  image') {
+	    
+        stage("PUBLISH TO NEXUS") {
             steps {
-                script {
-
-                    sh " docker build ./ -t nagui69/kaddem:abdelhak "
-                   
-                   
-                }
+                sh 'mvn deploy'
+                 // echo "mvn deploy"
             }
         }
 
 
 
-        stage('push docker  image'){
-            steps{
-                script {
-                     docker.withRegistry('', registryCredential) {
-                        sh " docker push nagui69/kaddem:abdelhak "
-                    }
-                }
-            }
-        }
 
 
-        // stage('cleaning image'){
+stage('Build Docker Image') {
+                      steps {
+                          script {
+                            sh 'docker build -t imenziedi/spring-app-bi:imenziedi-5bi-G1 .'
+                          }
+                      }
+                  }
+
+                  stage('login dockerhub') {
+                                        steps {
+
+				sh 'docker login -u imenziedi --password dckr_pat_7kFuYWIAlB0Tsaec-YEeMViB2Dc'
+                                            }
+		  }
+
+	                    
+
+	     stage('Push Docker Image') {
+                                        steps {
+                                        echo"docker push"
+                                        sh 'docker push imenziedi/spring-app-bi:imenziedi-5bi-G1'
+
+                                            }
+
+	    }
+      
+
+        // stage('run docker compose'){
         //     steps{
         //         script {
                      
-        //                 sh " docker rmi nagui69/kaddem:abdelhak"
+        //                 sh " sudo docker compose up"
                     
         //         }
         //     }
