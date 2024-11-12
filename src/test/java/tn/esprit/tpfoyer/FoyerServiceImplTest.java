@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.repository.FoyerRepository;
+import tn.esprit.tpfoyer.service.FoyerServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
