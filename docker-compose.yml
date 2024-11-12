@@ -33,7 +33,7 @@ services:
       - mysql
 
   spring-app:
-    image: dorralajmi/tp-foyer:5.0.0
+    build: .
     ports:
       - "8082:8082"
     environment:
