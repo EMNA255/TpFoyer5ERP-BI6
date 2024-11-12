@@ -25,7 +25,7 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - monitoring-network
+      - devops_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
