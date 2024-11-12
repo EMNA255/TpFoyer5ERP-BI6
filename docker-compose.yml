@@ -21,8 +21,11 @@ services:
 
   prometheus:
     image: prom/prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
     networks:
-      - app_network
+      - monitoring-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
