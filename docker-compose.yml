@@ -18,6 +18,12 @@ services:
       interval: 10s
       retries: 5
 
+
+  prometheus:
+    image: prom/prometheus
+    networks:
+      - app_network
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
