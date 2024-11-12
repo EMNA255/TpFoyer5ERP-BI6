@@ -1,33 +1,54 @@
+version: '3'
+
 services:
-  mysqlDb:
+  mysql:
     image: mysql:5.7
-    restart: unless-stopped
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_ROOT_PASSWORD: root
-       
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    networks:
+      - devops_network
     volumes:
-      - db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
 
-  app-kaddem:
-    depends_on:
-      - mysqlDb
-    image: dorralajmi/tp-foyer:5.0.0  # Utilisez ici la version spécifique 0.0.1
-    restart: on-failure
-    ports:
-      - "8082:8082"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
     environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url": "jdbc:mysql://mysqldb:3306/tpfoyer_db?createDatabaseIfNotExist=true",
-        "spring.datasource.username": "root",
-        "spring.datasource.password": "null",
-        "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQLDialect",
-        "spring.jpa.hibernate.ddl-auto": "update"
-      }'
-    stdin_open: true
-    tty: true
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ""
+    ports:
+      - "8084:80"
+    networks:
+      - devops_network
+    depends_on:
+      - mysql
+
+  spring-app:
+    build: .
+    ports:
+      - "8085:8080"
+    environment:
+      spring.datasource.url: "jdbc:mysql://mysql:3306/springdb?createDatabaseIfNotExist=true"
+      spring.datasource.username: root
+      spring.datasource.password: ""
+      server.port: 8082
+    networks:
+      - devops_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+networks:
+  devops_network:
 
 volumes:
-  db:
+  mysql_data:
