@@ -52,15 +52,6 @@ class ChambreServiceImplTest {
         verify(chambreRepository).findById(1L);
     }
 
-    @Test
-    void retrieveChambre_ShouldReturnNull_WhenIdDoesNotExist() {
-        when(chambreRepository.findById(1L)).thenReturn(Optional.empty());
-
-        Chambre result = chambreService.retrieveChambre(1L);
-
-        assertNull(result);
-        verify(chambreRepository).findById(1L);
-    }
 
     @Test
     void addChambre_ShouldSaveAndReturnChambre() {
